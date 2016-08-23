@@ -1,5 +1,5 @@
 class WordGuess
-  def initialize(debug = false)
+  def initialize(debug = true)
     # are we in debug mode?
     @debug = debug
 
