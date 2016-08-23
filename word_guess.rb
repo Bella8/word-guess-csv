@@ -1,17 +1,18 @@
+require 'csv'
 class WordGuess
   def initialize(debug = true)
     # are we in debug mode?
     @debug = debug
-
+    @words = {}
     # possible words, selected at random
-    @words = {
-      "e" => %w(dog cat bug hat cap lit kin fan fin fun tan ten tin ton),
-      "m" => %w(plain claim brine crime alive bride skine drive slime stein jumpy),
-      "h" => %w(
-          machiavellian prestidigitation plenipotentiary quattuordecillion
-          magnanimous unencumbered bioluminescent circumlocution
-        )
-    }
+    # @words = {
+    #   "e" => %w(dog cat bug hat cap lit kin fan fin fun tan ten tin ton),
+    #   "m" => %w(plain claim brine crime alive bride skine drive slime stein jumpy),
+    #   "h" => %w(
+    #       machiavellian prestidigitation plenipotentiary quattuordecillion
+    #       magnanimous unencumbered bioluminescent circumlocution
+    #     )
+    # }
 
     # players attempts allowed by difficulty
     @tries = {
@@ -19,7 +20,8 @@ class WordGuess
       "m" => 6,
       "h" => 4
     }
-
+  #populating the hash
+   load_words_data
     # ask the user to set the game mode
     mode = set_mode
 
@@ -40,6 +42,8 @@ class WordGuess
     # start the first turn
     play_turn
   end
+
+
 
   def play_turn
     # a turn begins by asking a player for their guess
@@ -129,6 +133,15 @@ class WordGuess
 
     letter
   end
+
+  def load_words_data
+    CSV.read('words.csv').each do |line|
+      @words[line[0]] = line[1..-1]
+      # @words[l[0]] = (l[1]..-1)
+    end
+  end
 end
+
+# return words if you use local varibale
 
 WordGuess.new
